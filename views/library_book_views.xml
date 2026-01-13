@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- LIST VIEW (PASTIKAN <list> bukan <tree>) -->
+    <record id="view_library_book_list" model="ir.ui.view">
+        <field name="name">library.book.list</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" string="Judul"/>
+                <field name="author" string="Penulis"/>
+                <field name="isbn" string="ISBN"/>
+                <field name="tahun_terbit" string="Tahun"/>
+                <field name="status" string="Status"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- FORM VIEW -->
+    <record id="view_library_book_form" model="ir.ui.view">
+        <field name="name">library.book.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" string="Judul Buku"/>
+                        <field name="author" string="Penulis"/>
+                        <field name="isbn" string="ISBN"/>
+                        <field name="tahun_terbit" string="Tahun Terbit"/>
+                        <field name="status" string="Status"/>
+                        <field name="jumlah_halaman" string="Jumlah Halaman"/>
+                    </group>
+                    <notebook>
+                        <page string="Sinopsis">
+                            <field name="sinopsis" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
