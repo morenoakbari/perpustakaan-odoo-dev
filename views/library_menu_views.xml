@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- ACTION untuk Buku -->
+
+    <menuitem id="menu_library_root"
+              name="Perpustakaan"
+              sequence="10"/>
+
     <record id="action_library_book" model="ir.actions.act_window">
         <field name="name">Data Buku</field>
         <field name="res_model">library.book</field>
-        <field name="view_mode">list,form</field>  <!-- LIST bukan TREE -->
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Tambahkan buku pertama Anda
-            </p>
-        </field>
+        <field name="view_mode">list,form</field>
     </record>
-    
-    <!-- MENU STRUCTURE -->
-    <menuitem id="menu_library_root" name="Perpustakaan" sequence="10"/>
-    
-    <menuitem id="menu_library_books" 
-              name="Data Buku" 
-              parent="menu_library_root" 
-              action="action_library_book" 
+
+    <record id="action_library_loan" model="ir.actions.act_window">
+        <field name="name">Peminjaman Buku</field>
+        <field name="res_model">library.loan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_library_books"
+              name="Data Buku"
+              parent="menu_library_root"
+              action="action_library_book"
               sequence="10"/>
+
+    <menuitem id="menu_library_loans"
+              name="Peminjaman"
+              parent="menu_library_root"
+              action="action_library_loan"
+              sequence="20"/>
+
 </odoo>

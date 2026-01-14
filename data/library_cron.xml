@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cron Job untuk cek keterlambatan -->
+    <record id="cron_check_overdue_loans" model="ir.cron">
+        <field name="name">Cek Peminjaman Terlambat</field>
+        <field name="model_id" ref="model_library_loan"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_check_overdue_loans()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="user_id" ref="base.user_root"/>
+    </record>
+    
+    <!-- Cron Job untuk notifikasi pengembalian -->
+    <record id="cron_return_reminder" model="ir.cron">
+        <field name="name">Reminder Pengembalian Buku</field>
+        <field name="model_id" ref="model_library_loan"/>
+        <field name="state">code</field>
+        <field name="code">
+# Mengirim reminder 2 hari sebelum jatuh tempo
+today = datetime.now().date()
+two_days_later = today + timedelta(days=2)
+loans = model.search([
+    ('state', '=', 'confirmed'),
+    ('expected_return_date', '=', two_days_later)
+])
+for loan in loans:
+    loan.message_post(
+        body=f"Reminder: Buku {loan.book_id.name} harus dikembalikan dalam 2 hari ({loan.expected_return_date})",
+        subtype_id=ref('mail.mt_comment')
+    )
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

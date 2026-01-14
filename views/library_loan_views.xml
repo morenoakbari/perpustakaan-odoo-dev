@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- LIST VIEW -->
+    <record id="view_library_loan_list" model="ir.ui.view">
+        <field name="name">library.loan.list</field>
+        <field name="model">library.loan</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="book_id"/>
+                <field name="borrower_name"/>
+                <field name="borrow_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_library_loan_form" model="ir.ui.view">
+        <field name="name">library.loan.form</field>
+        <field name="model">library.loan</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm_borrow" type="object" string="Konfirmasi Peminjaman" class="btn-primary" invisible="state != 'draft'"/>
+
+                    <button name="action_return_book" type="object" string="Kembalikan Buku" class="btn-success" invisible="state != 'borrowed'"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,borrowed,returned"/>
+                </header>
+
+
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="book_id"/>
+                        <field name="borrower_name"/>
+                        <field name="borrow_date"/>
+                        <field name="return_date" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
