@@ -1,9 +1,11 @@
-from odoo import models, fields
+from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+
 
 class LibraryLoan(models.Model):
     _name = 'library.loan'
     _description = 'Peminjaman Buku'
+    _order = 'borrow_date desc'
 
     name = fields.Char(
         string='Nomor Peminjaman',
@@ -27,7 +29,9 @@ class LibraryLoan(models.Model):
         default=fields.Date.today
     )
 
-    return_date = fields.Date(string='Tanggal Kembali')
+    return_date = fields.Date(
+        string='Tanggal Kembali'
+    )
 
     state = fields.Selection(
         [
@@ -38,15 +42,22 @@ class LibraryLoan(models.Model):
         default='draft'
     )
 
-    # 🔥 INI YANG KURANG
+    # ===============================
+    # ACTION BUTTON (ODOO 18 FRIENDLY)
+    # ===============================
+
     def action_confirm_borrow(self):
         for record in self:
-            if record.state != 'draft':
-                raise ValidationError('Peminjaman sudah dikonfirmasi.')
+            if record.book_id.status != 'tersedia':
+                raise ValidationError('Buku tidak tersedia untuk dipinjam.')
+
             record.state = 'borrowed'
+            record.book_id.status = 'dipinjam'
 
     def action_return_book(self):
         for record in self:
-            if record.state != 'borrowed':
-                raise ValidationError('Buku belum dipinjam.')
             record.state = 'returned'
+            if not record.return_date:
+                record.return_date = fields.Date.today()
+            record.book_id.status = 'tersedia'
+
