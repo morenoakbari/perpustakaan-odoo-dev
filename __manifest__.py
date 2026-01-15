@@ -7,6 +7,7 @@
     'author': 'Nama Anda',
     'depends': ['base'],
     'data': [
+        # 'security/library_groups.xml',
         'security/ir.model.access.csv',
         'data/library_loan_sequence.xml',
         'views/library_book_views.xml',

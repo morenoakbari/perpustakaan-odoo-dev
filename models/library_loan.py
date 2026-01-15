@@ -1,15 +1,13 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from datetime import timedelta
 
 
 class LibraryLoan(models.Model):
     _name = 'library.loan'
     _description = 'Peminjaman Buku'
     _order = 'borrow_date desc'
-
-    # ===============================
-    # FIELDS
-    # ===============================
+    _rec_name = 'name'
 
     name = fields.Char(
         string='Nomor Peminjaman',
@@ -21,8 +19,7 @@ class LibraryLoan(models.Model):
     book_id = fields.Many2one(
         'library.book',
         string='Buku',
-        required=True,
-        domain="[('status', '=', 'tersedia')]"
+        required=True
     )
 
     borrower_name = fields.Char(
@@ -40,6 +37,16 @@ class LibraryLoan(models.Model):
         string='Tanggal Kembali'
     )
 
+    late_days = fields.Integer(
+        string='Hari Terlambat',
+        compute='_compute_late_days'
+    )
+
+    fine_amount = fields.Integer(
+        string='Denda (Rp)',
+        compute='_compute_fine_amount'
+    )
+
     state = fields.Selection(
         [
             ('draft', 'Draft'),
@@ -47,14 +54,12 @@ class LibraryLoan(models.Model):
             ('returned', 'Dikembalikan'),
         ],
         string='Status',
-        default='draft',
-        tracking=True
+        default='draft'
     )
 
     # ===============================
-    # CREATE (SEQUENCE)
+    # SEQUENCE
     # ===============================
-
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
@@ -64,51 +69,52 @@ class LibraryLoan(models.Model):
         return super().create(vals)
 
     # ===============================
-    # VALIDATIONS
+    # VALIDASI TANGGAL
     # ===============================
-
     @api.constrains('borrow_date', 'return_date')
     def _check_return_date(self):
-        for record in self:
-            if record.return_date and record.return_date < record.borrow_date:
+        for rec in self:
+            if rec.return_date and rec.return_date < rec.borrow_date:
                 raise ValidationError(
-                    'Tanggal kembali tidak boleh lebih awal dari tanggal pinjam.'
+                    'Tanggal kembali tidak boleh lebih kecil dari tanggal pinjam!'
                 )
 
-    @api.constrains('book_id', 'state')
-    def _check_book_availability(self):
-        for record in self:
-            if record.state == 'borrowed':
-                loan = self.search([
-                    ('book_id', '=', record.book_id.id),
-                    ('state', '=', 'borrowed'),
-                    ('id', '!=', record.id)
-                ], limit=1)
-
-                if loan:
-                    raise ValidationError(
-                        'Buku ini sedang dipinjam oleh peminjam lain.'
-                    )
+    # ===============================
+    # HITUNG HARI TERLAMBAT
+    # ===============================
+    @api.depends('borrow_date', 'return_date')
+    def _compute_late_days(self):
+        max_days = 7
+        for rec in self:
+            rec.late_days = 0
+            if rec.return_date:
+                due_date = rec.borrow_date + timedelta(days=max_days)
+                if rec.return_date > due_date:
+                    rec.late_days = (rec.return_date - due_date).days
 
     # ===============================
-    # BUTTON ACTIONS
+    # HITUNG DENDA
     # ===============================
+    @api.depends('late_days')
+    def _compute_fine_amount(self):
+        fine_per_day = 1000
+        for rec in self:
+            rec.fine_amount = rec.late_days * fine_per_day
 
+    # ===============================
+    # ACTION BUTTON
+    # ===============================
     def action_confirm_borrow(self):
-        for record in self:
-            if record.book_id.status != 'tersedia':
-                raise ValidationError(
-                    'Buku tidak tersedia untuk dipinjam.'
-                )
+        for rec in self:
+            if rec.book_id.status != 'tersedia':
+                raise ValidationError('Buku tidak tersedia untuk dipinjam.')
 
-            record.state = 'borrowed'
-            record.book_id.status = 'dipinjam'
+            rec.state = 'borrowed'
+            rec.book_id.status = 'dipinjam'
 
     def action_return_book(self):
-        for record in self:
-            record.state = 'returned'
-
-            if not record.return_date:
-                record.return_date = fields.Date.today()
-
-            record.book_id.status = 'tersedia'
+        for rec in self:
+            rec.state = 'returned'
+            if not rec.return_date:
+                rec.return_date = fields.Date.today()
+            rec.book_id.status = 'tersedia'

@@ -12,6 +12,8 @@
                 <field name="borrower_name"/>
                 <field name="borrow_date"/>
                 <field name="return_date"/>
+                <field name="late_days"/>
+                <field name="fine_amount"/>
                 <field name="state"/>
             </list>
         </field>
@@ -24,19 +26,33 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_confirm_borrow" type="object" string="Konfirmasi Peminjaman" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_confirm_borrow"
+                            type="object"
+                            string="Konfirmasi Peminjaman"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
 
-                    <button name="action_return_book" type="object" string="Kembalikan Buku" class="btn-success" invisible="state != 'borrowed'"/>
+                    <button name="action_return_book"
+                            type="object"
+                            string="Kembalikan Buku"
+                            class="btn-success"
+                            invisible="state != 'borrowed'"/>
 
                     <field name="state" widget="statusbar"/>
                 </header>
 
                 <sheet>
                     <group>
-                        <field name="book_id"/>
-                        <field name="borrower_name"/>
-                        <field name="borrow_date"/>
-                        <field name="return_date"/>
+                        <field name="name" readonly="1"/>
+                        <field name="book_id" readonly="state != 'draft'"/>
+                        <field name="borrower_name" readonly="state != 'draft'"/>
+                        <field name="borrow_date" readonly="state != 'draft'"/>
+                        <field name="return_date" readonly="state != 'borrowed'"/>
+                    </group>
+
+                    <group string="Denda">
+                        <field name="late_days" readonly="1"/>
+                        <field name="fine_amount" readonly="1"/>
                     </group>
                 </sheet>
             </form>
