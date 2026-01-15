@@ -23,6 +23,7 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+
                     <group>
                         <field name="name"/>
                         <field name="author"/>
@@ -33,10 +34,25 @@
                     </group>
 
                     <notebook>
+                        <!-- SINOPSIS -->
                         <page string="Sinopsis">
                             <field name="sinopsis" nolabel="1"/>
                         </page>
+
+                        <!-- RIWAYAT PEMINJAMAN -->
+                        <page string="Riwayat Peminjaman">
+                            <field name="loan_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="borrower_name"/>
+                                    <field name="borrow_date"/>
+                                    <field name="return_date"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
                     </notebook>
+
                 </sheet>
             </form>
         </field>
