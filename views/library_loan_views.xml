@@ -26,17 +26,9 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_confirm_borrow"
-                            type="object"
-                            string="Konfirmasi Peminjaman"
-                            class="btn-primary"
-                            invisible="state != 'draft'"/>
+                    <button name="action_confirm_borrow" type="object" string="Konfirmasi Peminjaman" class="btn-primary" invisible="state != 'draft'"/>
 
-                    <button name="action_return_book"
-                            type="object"
-                            string="Kembalikan Buku"
-                            class="btn-success"
-                            invisible="state != 'borrowed'"/>
+                    <button name="action_return_book" type="object" string="Kembalikan Buku" class="btn-success" invisible="state != 'borrowed'"/>
 
                     <field name="state" widget="statusbar"/>
                 </header>
@@ -44,10 +36,10 @@
                 <sheet>
                     <group>
                         <field name="name" readonly="1"/>
-                        <field name="book_id" readonly="state != 'draft'"/>
+                        <field name="book_id" domain="[('status', '=', 'tersedia')]" readonly="state != 'draft'"/>
                         <field name="borrower_name" readonly="state != 'draft'"/>
                         <field name="borrow_date" readonly="state != 'draft'"/>
-                        <field name="return_date" readonly="state != 'borrowed'"/>
+                        <field name="return_date" readonly="1"/>
                     </group>
 
                     <group string="Denda">
