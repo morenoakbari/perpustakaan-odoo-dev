@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- MODULE CATEGORY -->
+    <record id="module_category_library" model="ir.module.category">
+        <field name="name">Perpustakaan</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- ADMIN PERPUSTAKAAN -->
+    <record id="group_library_admin" model="res.groups">
+        <field name="name">Admin Perpustakaan</field>
+        <field name="category_id" ref="module_category_library"/>
+    </record>
+
+    <!-- PETUGAS PERPUSTAKAAN -->
+    <record id="group_library_staff" model="res.groups">
+        <field name="name">Petugas Perpustakaan</field>
+        <field name="category_id" ref="module_category_library"/>
+    </record>
+
+</odoo>
