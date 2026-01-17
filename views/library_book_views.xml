@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- LIST VIEW -->
+    <!-- LIST VIEW (DITAMBAHKAN THUMBNAIL) -->
     <record id="view_library_book_list" model="ir.ui.view">
         <field name="name">library.book.list</field>
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <list>
+                <field name="image_cover_thumbnail" widget="image" class="oe_avatar"/>
                 <field name="name"/>
                 <field name="author"/>
                 <field name="isbn"/>
@@ -16,21 +17,45 @@
         </field>
     </record>
 
-    <!-- FORM VIEW -->
+    <!-- FORM VIEW (DITAMBAHKAN AREA UNTUK GAMBAR) -->
     <record id="view_library_book_form" model="ir.ui.view">
         <field name="name">library.book.form</field>
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
-
+                    
+                    <!-- DIVIDER UNTUK LAYOUT DENGAN GAMBAR -->
+                    <div class="oe_button_box" name="button_box">
+                        <!-- Optional: Tambahkan button khusus jika diperlukan -->
+                    </div>
+                    
                     <group>
-                        <field name="name"/>
-                        <field name="author"/>
-                        <field name="isbn"/>
-                        <field name="tahun_terbit"/>
-                        <field name="status" widget="statusbar"/>
-                        <field name="jumlah_halaman"/>
+                        <!-- KOLOM KIRI: INFORMASI TEKS -->
+                        <group>
+                            <field name="name"/>
+                            <field name="author"/>
+                            <field name="isbn"/>
+                            <field name="tahun_terbit"/>
+                            <field name="status" widget="statusbar"/>
+                            <field name="jumlah_halaman"/>
+                        </group>
+                        
+                        <!-- KOLOM KANAN: GAMBAR COVER -->
+                        <group string="Cover Buku">
+                            <field name="image_cover" 
+                                   widget="image" 
+                                   class="oe_avatar" 
+                                   options='{"preview_image": "image_cover_thumbnail", "size": [512, 512]}'
+                                   filename="name"/>
+                            <field name="image_cover_thumbnail" invisible="1"/>
+                            <label for="image_cover"/>
+                            <div class="oe_edit_only">
+                                <p class="text-muted">
+                                    <small>Format: JPG, PNG, GIF, BMP (Maks. 1024x1024px)</small>
+                                </p>
+                            </div>
+                        </group>
                     </group>
 
                     <notebook>

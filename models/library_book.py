@@ -6,13 +6,30 @@ class LibraryBook(models.Model):
     _name = 'library.book'
     _description = 'Data Buku Perpustakaan'
     _rec_name = 'name'
-
+    
     # =====================
     # BASIC INFO
     # =====================
     name = fields.Char(
         string='Judul Buku',
         required=True
+    )
+
+    # TAMBAHKAN FIELD GAMBAR DI SINI
+    image_cover = fields.Image(
+        string='Cover Buku',
+        max_width=1024,  # Ukuran maksimum lebar gambar
+        max_height=1024,  # Ukuran maksimum tinggi gambar
+        help='Upload cover buku dengan ukuran maksimal 1024x1024 piksel'
+    )
+    
+    image_cover_thumbnail = fields.Image(
+        string='Thumbnail Cover',
+        related='image_cover',
+        max_width=256,
+        max_height=256,
+        store=True,
+        help='Thumbnail otomatis dari cover buku'
     )
 
     author = fields.Char(
