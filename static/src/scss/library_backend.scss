@@ -1,0 +1,646 @@
+/* ==========================================================
+   LIBRARY MANAGEMENT – BACKEND CUSTOM STYLE
+   Aman untuk Odoo Backend (CE / EE)
+   ========================================================== */
+
+/* ------------------------------
+   GLOBAL TWEAK
+-------------------------------- */
+.o_form_view,
+.o_list_view {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+}
+
+/* ------------------------------
+   LIST VIEW – DATA BUKU (LIBRARY BOOK)
+-------------------------------- */
+.o_list_view {
+    background: transparent !important;
+    
+    table {
+        border-spacing: 0 8px;
+        border-collapse: separate;
+        width: 100%;
+    }
+
+    thead th {
+        background: #f8fafc;
+        color: #374151;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        padding: 14px 12px !important;
+        border: none;
+    }
+
+    tbody tr {
+        background: #ffffff;
+        transition: all 0.2s ease-in-out;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        position: relative;
+        
+        &:hover {
+            background: #f9fafb;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+    }
+
+    td {
+        padding: 16px 12px !important;
+        vertical-align: middle;
+        border: none;
+        border-top: 1px solid #f1f5f9;
+        border-bottom: 1px solid #f1f5f9;
+        
+        &:first-child {
+            border-left: 1px solid #f1f5f9;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        
+        &:last-child {
+            border-right: 1px solid #f1f5f9;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+    }
+
+    /* Thumbnail Cover untuk Buku */
+    .o_data_cell img.oe_avatar {
+        width: 48px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
+        
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    /* Status Buku */
+    .o_data_cell[name="status"] {
+        font-weight: 600;
+        
+        &:before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        &:contains("dipinjam") {
+            color: #dc2626;
+            
+            &:before {
+                background-color: #dc2626;
+            }
+        }
+        
+        &:contains("tersedia") {
+            color: #059669;
+            
+            &:before {
+                background-color: #059669;
+            }
+        }
+    }
+}
+
+/* ------------------------------
+   STATUS COLOR (LIST VIEW) - DECORATION
+-------------------------------- */
+.o_list_view {
+    /* Buku Dipinjam */
+    tr.o_data_row.decoration-danger {
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #dc2626;
+            border-radius: 10px 0 0 10px;
+        }
+    }
+
+    /* Buku Tersedia */
+    tr.o_data_row.decoration-success {
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #059669;
+            border-radius: 10px 0 0 10px;
+        }
+    }
+}
+
+/* ------------------------------
+   FORM VIEW – DATA BUKU
+-------------------------------- */
+.o_form_view {
+    .oe_title h1 {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #111827;
+        position: relative;
+        padding-bottom: 12px;
+        
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+            border-radius: 3px;
+        }
+    }
+
+    .o_group {
+        background: #ffffff;
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e5e7eb;
+    }
+
+    /* Cover Image pada Form */
+    .o_field_image {
+        text-align: center;
+        
+        img.oe_avatar {
+            max-width: 280px;
+            max-height: 400px;
+            width: auto;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            
+            &:hover {
+                transform: scale(1.02);
+            }
+        }
+        
+        .o_form_image_controls {
+            margin-top: 16px;
+        }
+        
+        + p.text-muted {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+    }
+
+    /* Input Fields */
+    .o_field_widget {
+        .o_input {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px 14px;
+            transition: all 0.2s ease;
+            
+            &:focus {
+                border-color: #4f46e5;
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+                outline: none;
+            }
+        }
+        
+        &.o_required_modifier .o_input {
+            background-color: #fefce8;
+            border-color: #fbbf24;
+        }
+    }
+
+    /* Statusbar untuk Buku */
+    field[name="status"] {
+        &.o_statusbar_status {
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .o_statusbar_item {
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: #ffffff;
+            color: #6b7280;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+            
+            &.o_active {
+                background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+                color: #ffffff;
+                border-color: #4f46e5;
+                box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            }
+        }
+    }
+}
+
+/* ------------------------------
+   NOTEBOOK (TAB)
+-------------------------------- */
+.o_notebook {
+    margin-top: 24px;
+    
+    .nav-tabs {
+        border-bottom: 2px solid #e5e7eb;
+        padding: 0 8px;
+        
+        .nav-link {
+            font-weight: 600;
+            color: #6b7280;
+            padding: 12px 24px;
+            margin: 0 4px;
+            border: none;
+            border-bottom: 3px solid transparent;
+            background: none;
+            transition: all 0.2s ease;
+            
+            &:hover {
+                color: #4f46e5;
+                background: #f5f3ff;
+                border-radius: 8px 8px 0 0;
+            }
+            
+            &.active {
+                color: #4f46e5;
+                border-bottom: 3px solid #4f46e5;
+                background: #f5f3ff;
+                border-radius: 8px 8px 0 0;
+            }
+        }
+    }
+    
+    .tab-content {
+        background: #ffffff;
+        padding: 24px;
+        border-radius: 0 12px 12px 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
+        border-top: none;
+        margin-top: -1px;
+    }
+    
+    /* Sinopsis Field */
+    field[name="sinopsis"][nolabel="1"] {
+        min-height: 200px;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+    
+    /* Riwayat Peminjaman dalam Notebook */
+    field[name="loan_ids"] {
+        .o_list_view {
+            background: #f9fafb;
+            border-radius: 8px;
+            
+            table {
+                border-spacing: 0;
+            }
+            
+            tbody tr {
+                box-shadow: none;
+                border-radius: 6px;
+                
+                &:hover {
+                    background: #f1f5f9;
+                }
+            }
+            
+            tr.o_data_row.decoration-danger {
+                &:before {
+                    background: #ef4444;
+                }
+            }
+        }
+    }
+}
+
+/* ------------------------------
+   STATUSBAR (FORM VIEW)
+-------------------------------- */
+.o_statusbar_status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    
+    .o_statusbar_item {
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 25px;
+        background: #ffffff;
+        color: #6b7280;
+        border: 2px solid #e5e7eb;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        &.o_active {
+            background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+            color: #ffffff;
+            border-color: #4f46e5;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+        }
+    }
+}
+
+/* ------------------------------
+   BUTTON STYLING
+-------------------------------- */
+.btn-primary {
+    background: linear-gradient(135deg, #4f46e5, #8b5cf6) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px 24px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3) !important;
+    transition: all 0.3s ease !important;
+    
+    &:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4) !important;
+    }
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981, #34d399) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px 24px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
+    transition: all 0.3s ease !important;
+    
+    &:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+    }
+}
+
+/* ==========================================================
+   LIBRARY LOAN – CUSTOM STYLE
+   ========================================================== */
+.library-loan-view {
+    
+    /* LIST VIEW */
+    &.o_list_view {
+        table {
+            border-spacing: 0 8px;
+            border-collapse: separate;
+        }
+        
+        thead th {
+            background: #f0f9ff;
+            color: #0369a1;
+        }
+        
+        tbody tr {
+            background: #ffffff;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            
+            &:hover {
+                background: #f8fafc;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+                transform: translateY(-2px);
+            }
+        }
+        
+        td {
+            padding: 16px 14px !important;
+            
+            &:first-child {
+                font-weight: 600;
+                color: #1e40af;
+            }
+        }
+        
+        /* Late Days Styling */
+        .o_data_cell[name="late_days"] {
+            font-weight: 600;
+            
+            &:not(:empty) {
+                color: #dc2626;
+                
+                &:before {
+                    content: '⏰ ';
+                }
+            }
+        }
+        
+        /* Fine Amount Styling */
+        .o_data_cell[name="fine_amount"] {
+            font-weight: 700;
+            
+            &:not(:empty) {
+                color: #dc2626;
+                background: linear-gradient(90deg, #fef2f2, #ffffff);
+                border-radius: 6px;
+                padding: 8px 12px !important;
+                
+                &:before {
+                    content: '💰 ';
+                }
+            }
+        }
+        
+        /* State Badges */
+        .o_data_cell[name="state"] {
+            font-weight: 600;
+            text-transform: capitalize;
+            
+            &:contains("draft") {
+                color: #92400e;
+                background: #fef3c7;
+                padding: 6px 12px;
+                border-radius: 20px;
+                display: inline-block;
+            }
+            
+            &:contains("borrowed") {
+                color: #1e40af;
+                background: #dbeafe;
+                padding: 6px 12px;
+                border-radius: 20px;
+                display: inline-block;
+            }
+            
+            &:contains("returned") {
+                color: #065f46;
+                background: #d1fae5;
+                padding: 6px 12px;
+                border-radius: 20px;
+                display: inline-block;
+            }
+        }
+    }
+    
+    /* FORM VIEW */
+    &.o_form_view {
+        .o_group {
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+        }
+        
+        /* Header dengan statusbar */
+        > header {
+            .o_statusbar_status {
+                margin-bottom: 20px;
+                background: #f0f9ff;
+                
+                .o_statusbar_item.o_active {
+                    background: linear-gradient(135deg, #0284c7, #0ea5e9);
+                }
+            }
+            
+            .btn-primary, .btn-success {
+                margin-left: 8px;
+            }
+        }
+        
+        /* Denda Section */
+        .group[string="Denda"] {
+            background: linear-gradient(135deg, #fef2f2, #fff7ed);
+            border: 2px solid #fed7aa;
+            border-radius: 12px;
+            
+            .o_field_widget {
+                .o_input {
+                    background: white;
+                    font-weight: 700;
+                    font-size: 16px;
+                    border-color: #fb923c;
+                }
+            }
+        }
+        
+        /* Readonly fields styling */
+        .o_field_widget[readonly="1"] .o_input {
+            background-color: #f9fafb;
+            color: #6b7280;
+            border-color: #d1d5db;
+        }
+    }
+}
+
+/* ------------------------------
+   RESPONSIVE DESIGN
+-------------------------------- */
+@media (max-width: 768px) {
+    .o_list_view {
+        td, th {
+            padding: 12px 8px !important;
+            font-size: 13px;
+        }
+        
+        .o_data_cell img.oe_avatar {
+            width: 36px;
+            height: 48px;
+        }
+    }
+    
+    .o_form_view .o_group {
+        padding: 16px;
+    }
+    
+    .o_statusbar_status {
+        flex-wrap: wrap;
+        
+        .o_statusbar_item {
+            padding: 8px 16px;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+    }
+    
+    .o_notebook .nav-tabs .nav-link {
+        padding: 10px 16px; 
+        font-size: 13px; 
+    }
+    
+    .library-loan-view.o_form_view > header {
+        .o_statusbar_status {
+            order: 2;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        button {
+            order: 1;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+/* ------------------------------
+   ANIMATIONS
+-------------------------------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.o_list_view tbody tr,
+.o_form_view .o_group,
+.o_notebook .tab-content {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ------------------------------
+   LOAN HISTORY TABLE IN BOOK FORM
+-------------------------------- */
+.o_form_view field[name="loan_ids"] .o_list_view {
+    margin-top: 16px;
+    
+    thead th {
+        background: #e5e7eb;
+        color: #374151;
+    }
+    
+    tbody tr {
+        background: #ffffff;
+        
+        &:hover {
+            background: #f3f4f6;
+        }
+    }
+}

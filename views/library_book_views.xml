@@ -6,9 +6,9 @@
         <field name="name">library.book.list</field>
         <field name="model">library.book</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-danger="status == 'dipinjam'" decoration-success="status == 'tersedia'">
                 <field name="image_cover_thumbnail" widget="image" class="oe_avatar"/>
-                <field name="name"/>
+                <field name="name" string="Judul Buku"/>
                 <field name="author"/>
                 <field name="isbn"/>
                 <field name="tahun_terbit"/>
@@ -17,6 +17,7 @@
         </field>
     </record>
 
+
     <!-- FORM VIEW (DITAMBAHKAN AREA UNTUK GAMBAR) -->
     <record id="view_library_book_form" model="ir.ui.view">
         <field name="name">library.book.form</field>
@@ -24,50 +25,44 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    
-                    <!-- DIVIDER UNTUK LAYOUT DENGAN GAMBAR -->
-                    <div class="oe_button_box" name="button_box">
-                        <!-- Optional: Tambahkan button khusus jika diperlukan -->
+
+                    <!-- HEADER INFO -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Judul Buku"/>
+                        </h1>
                     </div>
-                    
+
                     <group>
-                        <!-- KOLOM KIRI: INFORMASI TEKS -->
+                        <!-- KOLOM KIRI -->
                         <group>
-                            <field name="name"/>
                             <field name="author"/>
                             <field name="isbn"/>
                             <field name="tahun_terbit"/>
-                            <field name="status" widget="statusbar"/>
                             <field name="jumlah_halaman"/>
+
+                            <field name="status" widget="statusbar" decoration-danger="status == 'dipinjam'" decoration-success="status == 'tersedia'"/>
                         </group>
-                        
-                        <!-- KOLOM KANAN: GAMBAR COVER -->
+
+                        <!-- KOLOM KANAN -->
                         <group string="Cover Buku">
-                            <field name="image_cover" 
-                                   widget="image" 
-                                   class="oe_avatar" 
-                                   options='{"preview_image": "image_cover_thumbnail", "size": [512, 512]}'
-                                   filename="name"/>
+                            <field name="image_cover" widget="image" class="oe_avatar" options='{"preview_image": "image_cover_thumbnail"}'/>
                             <field name="image_cover_thumbnail" invisible="1"/>
-                            <label for="image_cover"/>
-                            <div class="oe_edit_only">
-                                <p class="text-muted">
-                                    <small>Format: JPG, PNG, GIF, BMP (Maks. 1024x1024px)</small>
-                                </p>
-                            </div>
+
+                            <p class="text-muted">
+                                <small>JPG / PNG • Maks 1024x1024</small>
+                            </p>
                         </group>
                     </group>
 
                     <notebook>
-                        <!-- SINOPSIS -->
-                        <page string="Sinopsis">
+                        <page string="📖 Sinopsis">
                             <field name="sinopsis" nolabel="1"/>
                         </page>
 
-                        <!-- RIWAYAT PEMINJAMAN -->
-                        <page string="Riwayat Peminjaman">
+                        <page string="📚 Riwayat Peminjaman">
                             <field name="loan_ids" readonly="1">
-                                <list>
+                                <list decoration-danger="state == 'borrowed'">
                                     <field name="name"/>
                                     <field name="borrower_name"/>
                                     <field name="borrow_date"/>
@@ -82,5 +77,6 @@
             </form>
         </field>
     </record>
+
 
 </odoo>

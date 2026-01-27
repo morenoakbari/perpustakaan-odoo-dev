@@ -6,7 +6,7 @@
         <field name="name">library.loan.list</field>
         <field name="model">library.loan</field>
         <field name="arch" type="xml">
-            <list>
+            <list class="library-loan-view">
                 <field name="name"/>
                 <field name="book_id"/>
                 <field name="borrower_name"/>
@@ -24,11 +24,20 @@
         <field name="name">library.loan.form</field>
         <field name="model">library.loan</field>
         <field name="arch" type="xml">
-            <form>
-                <header>
-                    <button name="action_confirm_borrow" type="object" string="Konfirmasi Peminjaman" class="btn-primary" invisible="state != 'draft'"/>
+            <form class="library-loan-view">
 
-                    <button name="action_return_book" type="object" string="Kembalikan Buku" class="btn-success" invisible="state != 'borrowed'"/>
+                <header>
+                    <button name="action_confirm_borrow"
+                            type="object"
+                            string="Konfirmasi Peminjaman"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+
+                    <button name="action_return_book"
+                            type="object"
+                            string="Kembalikan Buku"
+                            class="btn-success"
+                            invisible="state != 'borrowed'"/>
 
                     <field name="state" widget="statusbar"/>
                 </header>
@@ -36,7 +45,9 @@
                 <sheet>
                     <group>
                         <field name="name" readonly="1"/>
-                        <field name="book_id" domain="[('status', '=', 'tersedia')]" readonly="state != 'draft'"/>
+                        <field name="book_id"
+                               domain="[('status', '=', 'tersedia')]"
+                               readonly="state != 'draft'"/>
                         <field name="borrower_name" readonly="state != 'draft'"/>
                         <field name="borrow_date" readonly="state != 'draft'"/>
                         <field name="return_date" readonly="1"/>
@@ -47,6 +58,7 @@
                         <field name="fine_amount" readonly="1"/>
                     </group>
                 </sheet>
+
             </form>
         </field>
     </record>
