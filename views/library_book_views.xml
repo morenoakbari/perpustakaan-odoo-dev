@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- LIST VIEW (DITAMBAHKAN THUMBNAIL) -->
+    <!-- LIST VIEW -->
     <record id="view_library_book_list" model="ir.ui.view">
         <field name="name">library.book.list</field>
         <field name="model">library.book</field>
@@ -18,12 +18,20 @@
     </record>
 
 
-    <!-- FORM VIEW (DITAMBAHKAN AREA UNTUK GAMBAR) -->
+    <!-- FORM VIEW -->
     <record id="view_library_book_form" model="ir.ui.view">
         <field name="name">library.book.form</field>
         <field name="model">library.book</field>
         <field name="arch" type="xml">
             <form>
+
+                <!-- 🔥 HEADER BUTTON EXPORT -->
+               <header>
+                <button name="action_export_to_excel"
+                        type="object"
+                        string="Export Riwayat Excel"
+                        class="btn-primary"/>
+            </header>
                 <sheet>
 
                     <!-- HEADER INFO -->
@@ -41,12 +49,17 @@
                             <field name="tahun_terbit"/>
                             <field name="jumlah_halaman"/>
 
-                            <field name="status" widget="statusbar" decoration-danger="status == 'dipinjam'" decoration-success="status == 'tersedia'"/>
+                            <field name="status" widget="statusbar"
+                                   decoration-danger="status == 'dipinjam'"
+                                   decoration-success="status == 'tersedia'"/>
                         </group>
 
                         <!-- KOLOM KANAN -->
                         <group string="Cover Buku">
-                            <field name="image_cover" widget="image" class="oe_avatar" options='{"preview_image": "image_cover_thumbnail"}'/>
+                            <field name="image_cover"
+                                   widget="image"
+                                   class="oe_avatar"
+                                   options='{"preview_image": "image_cover_thumbnail"}'/>
                             <field name="image_cover_thumbnail" invisible="1"/>
 
                             <p class="text-muted">
@@ -77,6 +90,5 @@
             </form>
         </field>
     </record>
-
 
 </odoo>

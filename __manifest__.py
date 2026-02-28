@@ -5,7 +5,7 @@
     'description': 'Modul sederhana untuk mengelola data buku dan peminjaman perpustakaan',
     'category': 'Services/Library',
     'author': 'Moreno',
-    'depends': ['base', 'web'],   # web penting untuk assets
+    'depends': ['base', 'web'],   
     'data': [
         'security/library_groups.xml',
         'security/ir.model.access.csv',
@@ -25,3 +25,5 @@
     'auto_install': False,
     'license': 'LGPL-3',
 }
+
+

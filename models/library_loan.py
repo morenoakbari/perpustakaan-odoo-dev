@@ -30,7 +30,9 @@ class LibraryLoan(models.Model):
     borrow_date = fields.Date(
         string='Tanggal Pinjam',
         default=fields.Date.today,
-        required=True
+        required=True,
+        readonly=True,
+        copy=False
     )
 
     return_date = fields.Date(
@@ -76,7 +78,7 @@ class LibraryLoan(models.Model):
         for rec in self:
             if rec.return_date and rec.return_date < rec.borrow_date:
                 raise ValidationError(
-                    'Tanggal kembali tidak boleh lebih kecil dari tanggal pinjam!'
+                    'Borrow Date tidak boleh lebih kecil dari tanggal pinjam!'
                 )
 
     # ===============================
@@ -109,6 +111,8 @@ class LibraryLoan(models.Model):
             if rec.book_id.status != 'tersedia':
                 raise ValidationError('Buku tidak tersedia untuk dipinjam.')
 
+            rec.borrow_date = fields.Date.today()
+            
             rec.state = 'borrowed'
             rec.book_id.status = 'dipinjam'
 

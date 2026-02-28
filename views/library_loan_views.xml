@@ -49,7 +49,7 @@
                                domain="[('status', '=', 'tersedia')]"
                                readonly="state != 'draft'"/>
                         <field name="borrower_name" readonly="state != 'draft'"/>
-                        <field name="borrow_date" readonly="state != 'draft'"/>
+                        <field name="borrow_date" readonly="1"/>
                         <field name="return_date" readonly="1"/>
                     </group>
 
